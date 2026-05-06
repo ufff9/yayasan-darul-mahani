@@ -1,64 +1,760 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { BookOpen, Mail, MapPin, Menu, Sparkles, Users, X } from "lucide-react";
+import { motion } from "framer-motion";
+import Lenis from "lenis";
+
+const navLinks = [
+  { href: "#home", label: "Beranda" },
+  { href: "#announcements", label: "Pengumuman" },
+  { href: "#gallery", label: "Galeri" },
+  { href: "#programs", label: "Program" },
+  { href: "#contact", label: "Kontak" },
+];
+
+const announcements = [
+  {
+    title: "Kajian Akbar Jumat",
+    date: "Jumat, 9 Mei",
+    subtitle: "Tafsir Surat Yunus & Doa Bersama",
+    label: "Kajian",
+    image: "/rekrut.jpeg",
+  },
+  {
+    title: "Pelatihan Tahfidz",
+    date: "Senin, 12 Mei",
+    subtitle: "Teknik hafalan efisien untuk santri baru",
+    label: "Program",
+    image: "/belajar.jpeg",
+  },
+  {
+    title: "Kursus Bahasa Arab",
+    date: "Rabu, 14 Mei",
+    subtitle: "Kelas intensif percakapan dan kosakata.",
+    label: "Kelas",
+    image: "/tilawah.jpeg",
+  },
+  {
+    title: "Open House Santri Baru",
+    date: "Sabtu, 18 Mei",
+    subtitle: "Tur fasilitas, presentasi program, dan pendaftaran langsung.",
+    label: "Rekrutmen",
+    image: "/rekrut.jpeg",
+  },
+  {
+    title: "Workshop Hafidz Digital",
+    date: "Minggu, 19 Mei",
+    subtitle: "Pembelajaran tahfidz dengan aplikasi mobile interaktif.",
+    label: "Workshop",
+    image: "/belajar.jpeg",
+  },
+  {
+    title: "Sertifikasi Quranic Excellence",
+    date: "Senin, 20 Mei",
+    subtitle: "Program sertifikat keunggulan membaca Al-Qur'an internasional.",
+    label: "Sertifikasi",
+    image: "/tilawah.jpeg",
+  },
+];
+
+const galleryItems = [
+  {
+    title: "Open House Santri Baru",
+    date: "Sabtu, 11 Mei",
+    subtitle: "Tur fasilitas asrama dan workshop tahfidz.",
+    image: "/rekrut.jpeg",
+    detail:
+      "Kegiatan open house bagi calon santri dan wali untuk melihat asrama, ruang kelas, dan program tahfidz secara langsung.",
+  },
+  {
+    title: "Latihan Akhir Semester",
+    date: "Selasa, 14 Mei",
+    subtitle: "Evaluasi hafalan dan pembelajaran intensif.",
+    image: "/belajar.jpeg",
+    detail:
+      "Santri mengikuti evaluasi hafalan Al-Qur'an, praktik doa, dan presentasi kelompok sebagai bagian dari penilaian semester.",
+  },
+  {
+    title: "Seni Kaligrafi",
+    date: "Kamis, 16 Mei",
+    subtitle: "Workshop kaligrafi Islami untuk santri.",
+    image: "/tilawah.jpeg",
+    detail:
+      "Pelatihan seni kaligrafi Arab untuk mengasah kreativitas dan memperkuat kecintaan terhadap tulisan Al-Qur'an.",
+  },
+  {
+    title: "Kajian Parenting",
+    date: "Sabtu, 18 Mei",
+    subtitle: "Diskusi tumbuh kembang anak Islami.",
+    image: "/rekrut.jpeg",
+    detail:
+      "Seminar orang tua dan wali murid mengenai pola asuh Islami yang selaras dengan pendidikan pesantren.",
+  },
+  {
+    title: "Pentas Seni Santri",
+    date: "Minggu, 19 Mei",
+    subtitle: "Peragaan seni budaya dan ceramah singkat.",
+    image: "/belajar.jpeg",
+    detail:
+      "Acara puncak kegiatan dengan penampilan hadroh, tilawah, dan pertunjukan kreatif dari santri.",
+  },
+];
+
+const features = [
+  {
+    icon: <Sparkles className="h-5 w-5 text-gold" />,
+    title: "Premium Islamic Experience",
+    description:
+      "Pengajaran Al-Qur'an dan karakter Islami dalam lingkungan modern.",
+  },
+  {
+    icon: <BookOpen className="h-5 w-5 text-gold" />,
+    title: "Program Tahfidz Terstruktur",
+    description:
+      "Rangkaian kegiatan harian yang mendukung hafalan dan pemahaman.",
+  },
+  {
+    icon: <Users className="h-5 w-5 text-gold" />,
+    title: "Asrama Nyaman",
+    description: "Fasilitas asrama yang tenang dan keamanan Islami 24/7.",
+  },
+];
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeGalleryItem, setActiveGalleryItem] = useState<
+    (typeof galleryItems)[number] | null
+  >(null);
+  const [activeAnnouncement, setActiveAnnouncement] = useState<
+    (typeof announcements)[number] | null
+  >(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const rafId = useRef<number | null>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const handleGalleryNav = (direction: "left" | "right") => {
+    if (!carouselRef.current) return;
+    const nextIndex =
+      direction === "left"
+        ? Math.max(0, currentSlide - 1)
+        : Math.min(galleryItems.length - 1, currentSlide + 1);
+    const nextItem = carouselRef.current.children[
+      nextIndex
+    ] as HTMLElement | null;
+    if (nextItem) {
+      nextItem.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+      setCurrentSlide(nextIndex);
+    }
+  };
+
+  const openGalleryModal = (item: (typeof galleryItems)[number]) => {
+    setActiveGalleryItem(item);
+  };
+
+  const closeGalleryModal = () => setActiveGalleryItem(null);
+
+  const openAnnouncementModal = (item: (typeof announcements)[number]) => {
+    setActiveAnnouncement(item);
+  };
+
+  const closeAnnouncementModal = () => setActiveAnnouncement(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08,
+      smoothWheel: true,
+      syncTouch: true,
+      touchMultiplier: 1.2,
+      anchors: true,
+      autoRaf: false,
+    });
+
+    lenisRef.current = lenis;
+
+    const animate = (time: number) => {
+      lenis.raf(time);
+      rafId.current = requestAnimationFrame(animate);
+    };
+
+    rafId.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      lenis.destroy();
+    };
+  }, []);
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+    <div className="relative overflow-hidden bg-[#eef3ff] text-slate-950">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-linear-to-b from-[#1e3a8a] via-transparent to-transparent opacity-30" />
+
+      <header className="sticky top-0 z-40 border-b border-white/25 bg-white/60 backdrop-blur-xl transition duration-300">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 xl:px-8">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e3a8a] shadow-lg shadow-slate-950/10">
+              <Image
+                src="/logo-yayasan.jpeg"
+                alt="Logo Darul Qur'an Mahani Al-Qubro"
+                width={40}
+                height={40}
+                className="rounded-2xl object-cover"
+              />
+            </div>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">
+                Yayasan Darul
+              </p>
+              <p className="text-sm text-slate-500">Mahani Al-Qubro</p>
+            </div>
+          </div>
+
+          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-700 md:flex">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="transition hover:text-[#1e3a8a]"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="#contact"
+              className="hidden rounded-full bg-gold px-5 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-gold/20 transition hover:-translate-y-0.5 hover:bg-[#f9e047] md:inline-flex"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Daftar Sekarang
+            </a>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm shadow-slate-900/5 transition hover:border-slate-300 md:hidden"
+              aria-label="Toggle menu"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              {menuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {menuOpen && (
+          <div className="border-t border-slate-200/80 bg-white/95 px-6 py-5 shadow-[0_18px_40px_-20px_rgba(15,23,42,0.2)] md:hidden">
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                href="#contact"
+                className="rounded-2xl bg-[#1e3a8a] px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-[#16316b]"
+                onClick={() => setMenuOpen(false)}
+              >
+                Daftar Sekarang
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main
+        id="home"
+        className="relative mx-auto max-w-7xl px-6 pb-20 pt-12 xl:px-8"
+      >
+        <section className="min-h-[calc(100vh-120px)] grid gap-12 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,0.45fr)] lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-2xl"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <p className="mb-4 inline-flex rounded-full border border-gold/30 bg-white/85 px-4 py-2 text-sm font-semibold uppercase tracking-[0.32em] text-[#92400e] shadow-sm shadow-slate-900/5">
+              Premium Pesantren
+            </p>
+            <h1 className="font-heading text-5xl font-semibold leading-tight tracking-tight text-[#112153] sm:text-6xl">
+              Yayasan Darul Mahani Al-Qubro
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
+              Menyatukan tradisi tafsir Al-Qur'an, tahfidz, dan kehidupan asrama
+              dengan sentuhan desain modern untuk pengalaman belajar Islami yang
+              elegan.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#1e3a8a] px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-950/10 transition hover:bg-[#16316b]"
+              >
+                Daftar Sekarang
+              </a>
+              <a
+                href="#announcements"
+                className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-3 text-sm font-semibold text-slate-950 transition hover:border-[#1e3a8a] hover:text-[#1e3a8a]"
+              >
+                Pengumuman Mingguan
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+            className="relative overflow-hidden rounded-4xl border border-white/80 bg-linear-to-br from-[#1e3a8a] via-[#1a4c9f] to-[#3b82f6] p-8 shadow-2xl shadow-slate-950/10"
+          >
+            <div
+              className="absolute inset-x-0 top-0 h-20"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at center, rgba(250,204,21,0.18), transparent 55%)",
+              }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div className="relative space-y-6 text-white">
+              <div className="rounded-3xl bg-white/10 p-6 ring-1 ring-white/15 backdrop-blur-xl">
+                <p className="text-sm uppercase tracking-[0.28em] text-gold">
+                  Visi Pesantren
+                </p>
+                <p className="mt-4 text-lg font-medium leading-8">
+                  Menghadirkan generasi qur'ani yang cerdas, berakhlak mulia,
+                  dan berwawasan global.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl">
+                  <p className="text-sm text-slate-200">Lingkungan</p>
+                  <p className="mt-2 text-xl font-semibold">Asrama Nyaman</p>
+                </div>
+                <div className="rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl">
+                  <p className="text-sm text-slate-200">Kurikulum</p>
+                  <p className="mt-2 text-xl font-semibold">Program Tahfidz</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        <section
+          id="announcements"
+          className="mt-20 min-h-[calc(100vh-120px)] scroll-mt-28"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="mx-auto max-w-3xl text-center"
           >
-            Documentation
-          </a>
-        </div>
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#1e3a8a]">
+              Informasi Mingguan
+            </p>
+            <h2 className="mt-4 text-3xl font-heading font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Pengumuman Kegiatan Pesantren
+            </h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              Ikuti pengumuman mingguan kegiatan santri dengan informasi lengkap
+              dan poster menarik. Klik untuk melihat detail lengkap.
+            </p>
+          </motion.div>
+
+          <div className="mt-12 grid gap-6 xl:grid-cols-3">
+            {announcements.map((item, index) => (
+              <motion.article
+                key={`${item.title}-${index}`}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                onClick={() => openAnnouncementModal(item)}
+                className="group cursor-pointer overflow-hidden rounded-4xl border border-slate-200/70 bg-white/85 p-6 shadow-[0_18px_80px_-48px_rgba(30,58,138,0.45)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_90px_-40px_rgba(30,58,138,0.25)]"
+              >
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    width={720}
+                    height={480}
+                    className="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="mb-4 mt-6 inline-flex items-center gap-2 rounded-full bg-[#1e3a8a]/5 px-3 py-1 text-sm font-semibold uppercase tracking-[0.24em] text-[#1e3a8a]">
+                  <span className="h-2.5 w-2.5 rounded-full bg-gold" />
+                  {item.label}
+                </div>
+                <h3 className="text-2xl font-semibold text-slate-950">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm uppercase tracking-[0.2em] text-slate-500">
+                  {item.date}
+                </p>
+                <p className="mt-4 text-base leading-7 text-slate-700">
+                  {item.subtitle}
+                </p>
+                <div className="mt-8 flex items-center justify-between">
+                  <span className="rounded-full bg-slate-100 px-3 py-2 text-sm text-slate-700">
+                    Pesantren Center
+                  </span>
+                  <span className="rounded-full bg-gold/10 px-3 py-2 text-sm font-semibold text-[#92400e] transition group-hover:bg-gold/20">
+                    Lihat Detail
+                  </span>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          {activeAnnouncement && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4">
+              <div className="relative mx-auto w-full max-w-6xl h-[90vh] rounded-4xl bg-white shadow-2xl flex flex-col">
+                <button
+                  type="button"
+                  onClick={closeAnnouncementModal}
+                  className="absolute top-5 right-5 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-900 shadow-lg shadow-slate-950/10 transition hover:bg-slate-100"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+                <div className="flex flex-col lg:flex-row gap-0 flex-1 min-h-0">
+                  <div className="w-full lg:w-3/5 overflow-hidden rounded-t-4xl lg:rounded-t-none lg:rounded-l-4xl flex items-center justify-center bg-slate-50">
+                    <Image
+                      src={activeAnnouncement.image}
+                      alt={activeAnnouncement.title}
+                      width={800}
+                      height={600}
+                      className="w-full h-full object-contain"
+                      priority
+                    />
+                  </div>
+                  <div className="w-full lg:w-2/5 space-y-6 p-6 sm:p-8 rounded-b-4xl lg:rounded-b-none lg:rounded-r-4xl overflow-y-auto">
+                    <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#1e3a8a]">
+                      {activeAnnouncement.label}
+                    </p>
+                    <h3 className="text-3xl font-heading font-semibold text-slate-950">
+                      {activeAnnouncement.title}
+                    </h3>
+                    <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+                      {activeAnnouncement.date}
+                    </p>
+                    <p className="text-base leading-7 text-slate-700">
+                      {activeAnnouncement.subtitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        <section
+          id="gallery"
+          className="mt-20 min-h-[calc(100vh-120px)] scroll-mt-28"
+        >
+          <div className="flex flex-col items-center gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#1e3a8a]">
+                Galeri Kegiatan
+              </p>
+              <h2 className="mt-4 text-3xl font-heading font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                Carousel Kegiatan dan Spotlight Foto
+              </h2>
+              <p className="mt-4 max-w-2xl mx-auto text-base leading-7 text-slate-600">
+                Geser poster kegiatan untuk melihat lebih banyak acara, lalu
+                klik untuk membuka foto kegiatan dan detail acara secara penuh.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => handleGalleryNav("left")}
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm shadow-slate-900/5 transition hover:border-slate-300"
+              >
+                <span className="text-xl">‹</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGalleryNav("right")}
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm shadow-slate-900/5 transition hover:border-slate-300"
+              >
+                <span className="text-xl">›</span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            ref={carouselRef}
+            className="mt-8 flex gap-6 overflow-x-auto pb-4 pt-6 scroll-smooth snap-x snap-mandatory"
+          >
+            {galleryItems.map((item, index) => (
+              <motion.article
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: index * 0.08 }}
+                onClick={() => openGalleryModal(item)}
+                className="min-w-[320px] cursor-pointer snap-center overflow-hidden rounded-4xl border border-slate-200/80 bg-white shadow-lg shadow-slate-950/5 transition duration-300 hover:-translate-y-1"
+              >
+                <div className="overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    width={720}
+                    height={480}
+                    className="h-64 w-full object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="space-y-4 p-6">
+                  <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+                    {item.date}
+                  </p>
+                  <h3 className="text-2xl font-semibold text-slate-950">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-7 text-slate-600">
+                    {item.subtitle}
+                  </p>
+                  <div className="mt-4 flex items-center justify-between gap-3">
+                    <span className="rounded-full bg-[#1e3a8a]/10 px-4 py-2 text-sm font-semibold text-[#1e3a8a]">
+                      Lihat Detail
+                    </span>
+                    <span className="text-sm font-medium text-slate-500">
+                      Klik untuk lihat foto
+                    </span>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          {activeGalleryItem && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4">
+              <div className="relative mx-auto w-full max-w-6xl h-[90vh] rounded-4xl bg-white shadow-2xl flex flex-col">
+                <button
+                  type="button"
+                  onClick={closeGalleryModal}
+                  className="absolute top-5 right-5 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-900 shadow-lg shadow-slate-950/10 transition hover:bg-slate-100"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+                <div className="flex flex-col lg:flex-row gap-0 flex-1 min-h-0">
+                  <div className="w-full lg:w-3/5 overflow-hidden rounded-t-4xl lg:rounded-t-none lg:rounded-l-4xl flex items-center justify-center bg-slate-50">
+                    <Image
+                      src={activeGalleryItem.image}
+                      alt={activeGalleryItem.title}
+                      width={800}
+                      height={600}
+                      className="w-full h-full object-contain"
+                      priority
+                    />
+                  </div>
+                  <div className="w-full lg:w-2/5 space-y-6 p-6 sm:p-8 rounded-b-4xl lg:rounded-b-none lg:rounded-r-4xl overflow-y-auto">
+                    <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#1e3a8a]">
+                      Galeri Kegiatan
+                    </p>
+                    <h3 className="text-3xl font-heading font-semibold text-slate-950">
+                      {activeGalleryItem.title}
+                    </h3>
+                    <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+                      {activeGalleryItem.date}
+                    </p>
+                    <p className="text-base leading-7 text-slate-700">
+                      {activeGalleryItem.detail}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        <section
+          id="programs"
+          className="mt-24 min-h-[calc(100vh-120px)] scroll-mt-28"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#1e3a8a]">
+              Keunggulan Kami
+            </p>
+            <h2 className="mt-4 text-3xl font-heading font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Program dan Fasilitas Unggulan
+            </h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              Kami menyediakan lingkungan belajar terbaik dengan program
+              tahfidz, kaligrafi, dan pengembangan karakter Islami.
+            </p>
+          </motion.div>
+
+          <div className="mt-12 rounded-4xl border border-slate-200 bg-white/90 p-8 shadow-xl shadow-slate-950/5">
+            <div className="grid gap-10 lg:grid-cols-3">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.55, delay: index * 0.1 }}
+                  className="space-y-4 rounded-3xl border border-slate-200/80 bg-slate-50/80 p-6"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-[#1e3a8a]/10 text-[#1e3a8a] shadow-sm shadow-slate-950/5">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-950">
+                      {feature.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                      {feature.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="contact"
+          className="mt-24 min-h-[calc(100vh-120px)] rounded-4xl bg-[#112153] px-8 py-14 text-white shadow-2xl shadow-slate-950/15 scroll-mt-28"
+        >
+          <div className="mb-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-gold">
+              Hubungi Kami
+            </p>
+            <h2 className="mt-4 text-3xl font-heading font-semibold tracking-tight text-white sm:text-4xl">
+              Daftar dan Informasi Pendaftaran
+            </h2>
+          </div>
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+            <div>
+              <p className="text-sm leading-7 text-slate-200">
+                Siap membangun generasi qur'ani bersama kami? Hubungi tim
+                pendaftaran untuk informasi kelas, kunjungan, dan beasiswa.
+                Layaknya rumah ilmu yang hangat dan profesional.
+              </p>
+            </div>
+            <div className="space-y-4 rounded-3xl bg-white/10 p-6 ring-1 ring-white/10 backdrop-blur-xl">
+              <div className="flex items-center gap-3 text-sm text-slate-200">
+                <MapPin className="h-5 w-5 text-gold" />
+                <span>
+                  Kemenyan jaya RT 21 ,Desa Mekar jaya, Sungai Gelam , Muaro
+                  Jambi, Jambi
+                </span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-slate-200">
+                <Mail className="h-5 w-5 text-gold" />
+                <span>info@darul-mahani.sch.id</span>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href="https://instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-white/15 px-4 py-2 text-sm text-white"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="https://wa.me/6285361189307"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-white/15 px-4 py-2 text-sm text-white"
+                >
+                  WhatsApp
+                </a>
+                <a
+                  href="https://www.youtube.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-white/15 px-4 py-2 text-sm text-white"
+                >
+                  YouTube
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer className="mt-14 border-t border-slate-200/80 bg-white/95 px-6 py-10 text-slate-700 shadow-sm shadow-slate-900/5 xl:px-8">
+          <div className="mx-auto flex max-w-7xl flex-col gap-10 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1e3a8a] shadow-lg shadow-slate-950/10">
+                <Image
+                  src="/logo-yayasan.jpeg"
+                  alt="Logo Darul Qur'an Mahani Al-Qubro"
+                  width={40}
+                  height={40}
+                  className="rounded-2xl object-cover"
+                />
+              </div>
+              <div>
+                <p className="font-semibold text-slate-950">
+                  Darul Qur'an Mahani Al-Qubro
+                </p>
+                <p className="text-sm text-slate-500">
+                  Yayasan Pendidikan Al-Qur'an
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              <a
+                href="#home"
+                className="text-sm transition hover:text-[#1e3a8a]"
+              >
+                Beranda
+              </a>
+              <a
+                href="#announcements"
+                className="text-sm transition hover:text-[#1e3a8a]"
+              >
+                Pengumuman
+              </a>
+              <a
+                href="#gallery"
+                className="text-sm transition hover:text-[#1e3a8a]"
+              >
+                Galeri
+              </a>
+              <a
+                href="#programs"
+                className="text-sm transition hover:text-[#1e3a8a]"
+              >
+                Program
+              </a>
+              <a
+                href="#contact"
+                className="text-sm transition hover:text-[#1e3a8a]"
+              >
+                Kontak
+              </a>
+            </div>
+
+            <div className="text-sm text-slate-500">
+              © 2026 Darul Qur'an Mahani Al-Qubro. Semua hak dilindungi.
+            </div>
+          </div>
+        </footer>
       </main>
     </div>
   );
