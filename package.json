@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "generate-icons": "node scripts/generate-icons.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -26,7 +27,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "png-to-ico": "^1.0.0",
+    "sharp": "^0.32.0",
     "tailwindcss": "^4",
+    "to-ico": "^1.1.5",
     "typescript": "^5"
   }
 }
