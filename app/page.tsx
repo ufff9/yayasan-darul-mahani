@@ -27,7 +27,14 @@ const announcements = [
     date: "Jum'at, 8 Mei 2026",
     subtitle: "Penampilan hafalan Al-Qur'an oleh santri.",
     label: "Program",
-    image: "/tasmi.jpeg",
+    image: "/belajar1.jpeg",
+  },
+  {
+    title: "Tasmi Al-Qur'an",
+    date: "Jum'at, 8 Mei 2026",
+    subtitle: "Penampilan hafalan Al-Qur'an oleh santri.",
+    label: "Program",
+    image: "/belajar2.jpeg",
   },
 ];
 
