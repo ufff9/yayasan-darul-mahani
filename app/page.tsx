@@ -34,7 +34,7 @@ const announcements = [
     date: "Jum'at, 15 Mei 2026",
     subtitle: "Pembelajaran tentang tilawah Al-Qur'an dan beberapa nada.",
     label: "Program",
-    image: "/belajar2.jpeg",
+    image: "/fiqih.jpeg",
   },
 ];
 
