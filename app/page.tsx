@@ -16,11 +16,11 @@ const navLinks = [
 
 const announcements = [
   {
-    title: "Penerimaan Karyawan Baru",
-    date: "Rabu, 6 Mei 2026",
-    subtitle: "Mencari staf administrasi untuk tahun ajaran baru.",
-    label: "Rekrutmen",
-    image: "/rekrut.jpeg",
+    title: "Blajar Tilawah Irama Bayati",
+    date: "1 Juli 2026",
+    subtitle: "Belajar tilawah dengan irama Bayati.",
+    label: "Program",
+    image: "/tilawah.jpeg",
   },
   {
     title: "Majelis Addya Ulami",
