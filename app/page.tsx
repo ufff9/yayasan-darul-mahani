@@ -23,11 +23,11 @@ const announcements = [
     image: "/tilawah.jpeg",
   },
   {
-    title: "Majelis Addya Ulami",
-    date: "Minggu, 31 Mei 2026",
-    subtitle: "Majelis Addya Ulami.",
+    title: "Metode Belajar Menghapal Al-Qur'an",
+    date: "Kamis, 2 Juli 2026",
+    subtitle: "Metode Belajar Menghapal Al-Qur'an.",
     label: "Program",
-    image: "/majelis.jpeg",
+    image: "/hapalan.jpeg",
   },
   {
     title: "Pengajian Fiqih",
