@@ -30,11 +30,11 @@ const announcements = [
     image: "/hapalan.jpeg",
   },
   {
-    title: "Pengajian Fiqih",
-    date: "Sabtu, 30 Mei 2026",
-    subtitle: "Diskusi tentang ilmu fiqih dan penerapannya dalam kehidupan sehari-hari.",
-    label: "Program",
-    image: "/fiqih.jpeg",
+    title: "Penerimaan Santri Baru",
+    date: "Kamis, 2 Juli 2026",
+    subtitle: "penerimaan santri baru.",
+    label: "Rekrutmen",
+    image: "/penerimaan.jpeg",
   },
 ];
 
