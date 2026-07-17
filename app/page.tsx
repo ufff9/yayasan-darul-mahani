@@ -16,18 +16,18 @@ const navLinks = [
 
 const announcements = [
   {
-    title: "Blajar Tilawah Irama Bayati",
-    date: "1 Juli 2026",
-    subtitle: "Belajar tilawah dengan irama Bayati.",
-    label: "Program",
-    image: "/tilawah.jpeg",
+    title: "Open Donasi untuk Pembangunan Musholah",
+    date: "17 Juli 2026",
+    subtitle: "Bantu membangun musholah dengan donasi Anda.",
+    label: "Donasi",
+    image: "/donasi.jpeg",
   },
   {
-    title: "Metode Belajar Menghapal Al-Qur'an",
+    title: "Kajian Hadist Arbain",
     date: "Kamis, 2 Juli 2026",
-    subtitle: "Metode Belajar Menghapal Al-Qur'an.",
+    subtitle: "Metode belajar hadist Arbain.",
     label: "Program",
-    image: "/hapalan.jpeg",
+    image: "/kajian.jpeg",
   },
   {
     title: "Penerimaan Santri Baru",
