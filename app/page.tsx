@@ -23,11 +23,11 @@ const announcements = [
     image: "/donasi.jpeg",
   },
   {
-    title: "Kajian Hadist Arbain",
-    date: "Kamis, 2 Juli 2026",
-    subtitle: "Metode belajar hadist Arbain.",
+    title: "Khatam Al-Qur'an 30 juz",
+    date: "Jum'at, 24 Juli 2026",
+    subtitle: "Kegiatan khatam Al-Qur'an 30 juz.",
     label: "Program",
-    image: "/kajian.jpeg",
+    image: "/khatam.png",
   },
   {
     title: "Penerimaan Santri Baru",
