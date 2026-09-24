@@ -16,25 +16,26 @@ const navLinks = [
 
 const announcements = [
   {
-    title: "Open Donasi untuk Pembangunan Musholah",
-    date: "17 Juli 2026",
-    subtitle: "Bantu membangun musholah dengan donasi Anda.",
-    label: "Donasi",
-    image: "/donasi.jpeg",
-  },
-  {
-    title: "Khatam Al-Qur'an 30 juz",
-    date: "Jum'at, 24 Juli 2026",
-    subtitle: "Kegiatan khatam Al-Qur'an 30 juz.",
-    label: "Program",
-    image: "/khatam.png",
-  },
-  {
-    title: "Penerimaan Santri Baru",
-    date: "Kamis, 2 Juli 2026",
-    subtitle: "penerimaan santri baru.",
+    title: "Dibutuhkkan Tenaga Pendidikan Rumah Tahfiz",
+    date: "Rabu, 23 September 2026",
+    subtitle:
+      "Membutuhkan Tenaga Pendidikan sesuai dengan persayaratan berikut.",
     label: "Rekrutmen",
-    image: "/penerimaan.jpeg",
+    image: "/anon1.jpeg",
+  },
+  {
+    title: "Tasmi' juz 30 Bilgoib",
+    date: "Kamis, 24 September 2026",
+    subtitle: "Penampilan peserta Tahfiz untuk membaca juz 30.",
+    label: "Program",
+    image: "/anon2.png",
+  },
+  {
+    title: "Pengajian Fiqih",
+    date: "Kamis, 17 September 2026",
+    subtitle: "Mendengarkan Tausiah dan Belajar untuk mendalami ilmu fiqih.",
+    label: "Program",
+    image: "/anon3.jpeg",
   },
 ];
 
