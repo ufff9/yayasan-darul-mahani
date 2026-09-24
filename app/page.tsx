@@ -28,7 +28,7 @@ const announcements = [
     date: "Kamis, 24 September 2026",
     subtitle: "Penampilan peserta Tahfiz untuk membaca juz 30.",
     label: "Program",
-    image: "/anon2.png",
+    image: "/anon2.jpeg",
   },
   {
     title: "Pengajian Fiqih",
