@@ -31,11 +31,12 @@ const announcements = [
     image: "/anon2.jpeg",
   },
   {
-    title: "Pengajian Fiqih",
+    title: "Pelajaran Akhlak Untuk Menuntut Ilmu",
     date: "Kamis, 17 September 2026",
-    subtitle: "Mendengarkan Tausiah dan Belajar untuk mendalami ilmu fiqih.",
+    subtitle:
+      "Mendengarkan dan mempelajari Tausiah ba'da sholat subuh dan Belajar Akhlak untuk menuntut ilmu.",
     label: "Program",
-    image: "/anon3.jpeg",
+    image: "/anon4.jpeg",
   },
 ];
 
