@@ -24,19 +24,18 @@ const announcements = [
     image: "/anon1.jpeg",
   },
   {
-    title: "Tasmi' juz 30 Bilgoib",
-    date: "Kamis, 24 September 2026",
-    subtitle: "Penampilan peserta Tahfiz untuk membaca juz 30.",
+    title: "Belajar Tilawah Al-Qur'an",
+    date: "Kamis, 1 Oktober 2026",
+    subtitle: "Mempelajari Tilawah irama bayati dan hijaz.",
     label: "Program",
-    image: "/anon2.jpeg",
+    image: "/anon5.jpeg",
   },
   {
-    title: "Pelajaran Akhlak Untuk Menuntut Ilmu",
-    date: "Kamis, 17 September 2026",
-    subtitle:
-      "Mendengarkan dan mempelajari Tausiah ba'da sholat subuh dan Belajar Akhlak untuk menuntut ilmu.",
+    title: "Memperingati Hari Kesaktian Pancasila",
+    date: "Kamis, 1 Oktober 2026",
+    subtitle: "Memperingati Hari Kesaktian Pancasila.",
     label: "Program",
-    image: "/anon4.jpeg",
+    image: "/anon6.jpeg",
   },
 ];
 
